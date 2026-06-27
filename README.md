@@ -1,26 +1,136 @@
 # parulmital_2511909_part1_data_cleaning
-#Problem Summary
-In this assignment, the objective was to clean and validate a raw retail dataset and prepare it for analysis.
-The dataset contained multiple issues such as missing values, inconsistent formats, duplicate records, and incorrect date entries.
-The goal was to make the data reliable and generate useful summary reports for business decision-making.
+# Part 1: Business Data Cleaning, Validation & Excel Reporting
 
-# Cleaning Approach
-I approached the task step by step.
-First, I explored the dataset to understand its structure and identify major issues.
-Then I cleaned text fields, standardized dates, handled missing values, and removed duplicates.
-I also applied business rules to ensure consistency in discount, order status, and shipping logic.
+## Problem Summary
 
+In this assignment, the objective was to clean and validate a raw retail dataset and prepare it for analysis. 
+The dataset was collected from multiple internal systems and contained various data quality issues such as missing values, inconsistent formatting, duplicate records, and incorrect dates.
 
-#Key Issues Found
-Some key issues identified were:
-Missing region and discount values
-Duplicate records
-Invalid discounts
-Ship date earlier than order date
-Inconsistent text formatting
+The goal was to make the dataset reliable and create summary reports that can support business decision-making.
 
-# Key Insights
-After cleaning the data, I observed that:
-Certain regions had higher sales but also higher cancellation rates
-Discount inconsistencies existed which could impact profitability analysis
-Some categories were contributing more to profit despite lower sales volume
+---
+
+## Dataset Description
+
+The dataset contains order-level sales information, including fields such as:
+- Customer details
+- Order and shipping dates
+- Product category and sub-category
+- Sales, cost, and discount
+- Order and payment status
+
+The original dataset was provided as `raw_orders.xlsx` and was kept unchanged.
+
+---
+
+## Tools Used
+
+- Microsoft Excel
+- Excel functions (TRIM, IF, COUNTIF, TEXT, DATEVALUE, etc.)
+- Pivot Tables for reporting
+
+---
+
+## Cleaning Steps Performed
+
+I followed a step-by-step approach to clean the dataset:
+
+1. **Text Cleaning**
+- Removed extra spaces using TRIM
+- Standardized case using proper formatting
+- Fixed inconsistent category names
+
+2. **Handling Missing Values**
+- Replaced missing region and ship mode with "Unknown"
+- Treated missing discount as 0 only when valid
+
+3. **Date Cleaning**
+- Converted order_date and ship_date into proper date format
+- Identified invalid and missing dates
+- Flagged records where ship date was earlier than order date
+
+4. **Duplicate Handling**
+- Removed exact duplicate rows
+- Flagged duplicate order IDs with conflicting values
+
+5. **Calculated Columns**
+- Created cleaned_discount
+- Calculated sales and profit
+- Calculated profit margin
+- Extracted order month and year
+- Added shipping delay days
+
+6. **Data Quality Flag**
+- Categorized records as Clean, Warning, or Invalid
+
+---
+
+## Business Rules Applied
+
+- Missing region → replaced with "Unknown"
+- Missing ship mode → replaced with "Unknown"
+- Negative discount → flagged as invalid
+- Discount above acceptable range → flagged
+- Cancelled and failed orders excluded from final summary
+- Refunded orders analyzed separately
+- Ship date before order date → flagged as invalid
+
+---
+
+## Data Quality Issues Found
+
+Some key issues identified:
+
+- Missing values in region, discount, and ship mode
+- Duplicate records and duplicate order IDs
+- Invalid discount values
+- Incorrect date formats
+- Shipping date earlier than order date
+- Inconsistent text formatting across categories
+
+---
+
+## Summary of Reports
+
+The following outputs were created:
+
+- **Data Quality Report**
+- Missing values summary
+- Duplicate summary
+- Invalid discount summary
+- Date issues summary
+
+- **Pivot Summary Report**
+- Sales and profit by region
+- Sales by category and sub-category
+- Order count by ship mode
+- Profit margin by segment
+- Monthly sales trends
+
+---
+
+## Key Business Insights
+
+- Some regions showed high sales but also higher number of cancelled orders 
+- Discount inconsistencies may affect profitability analysis 
+- Certain categories contributed more to profit even with lower sales volume 
+- Shipping delays varied across regions, indicating potential operational issues 
+
+One observation I had while working on this dataset is that even small data issues like missing values or formatting differences can significantly impact business insights.
+
+---
+
+## Assumptions and Limitations
+
+- Missing region and ship mode values were treated as "Unknown"
+- Missing discount was assumed as 0 only when other values were valid
+- The cleaning is based only on the provided dataset (no external validation)
+- Some assumptions were made during cleaning, which may slightly affect final results
+
+---
+
+## Screenshots Included
+
+- Raw dataset preview
+- Cleaned dataset preview
+- Pivot summary reports
