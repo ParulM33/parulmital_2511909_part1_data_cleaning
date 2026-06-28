@@ -1,35 +1,285 @@
 # Data Cleaning Log
 
-## Issues Identified
+ 
 
-When I started exploring the dataset, I noticed several data quality issues. 
-There were missing values in fields like region and discount, inconsistent text formats, duplicate records, and some incorrect date entries. 
-I also identified cases where ship date was earlier than order date, which is not valid.
+## Overview
 
-## Cleaning Actions Performed
+ 
 
-I first cleaned all text fields by removing extra spaces and standardizing formats using Excel functions like TRIM and PROPER. 
-Then I handled missing values by either filling them with "Unknown" or keeping them flagged based on business rules. 
-Duplicate rows were identified and removed, while conflicting duplicates were flagged instead of being deleted.
+This document describes the data cleaning and preparation steps performed on the raw dataset (raw_orders.xlsx).
 
-## Business Rules Applied
+ 
 
-Missing region and ship mode were replaced with "Unknown". 
-Missing discount was treated as 0 only when other sales values were valid. 
-Negative or unusually high discounts were flagged as invalid. 
-Cancelled, refunded, or failed orders were excluded from final sales calculations.
+The objective was to improve data quality by handling missing values, removing inconsistencies, and preparing the dataset for reliable analysis and reporting.
 
-## Assumptions
+ 
 
-I assumed missing region values represent unknown entries. 
-I also assumed discount values should not be modified unless clearly invalid.
+---
 
-## Records Removed / Flagged
+ 
 
-Exact duplicate records were removed. 
-Duplicate order IDs with mismatched data were flagged for further review instead of deletion.
+## 1. Duplicate Handling
 
-## Limitations
+ 
+
+- Checked duplicate records using `order_id` 
+
+- Exact duplicate rows were removed 
+
+- Records with duplicate order IDs but inconsistent values were **flagged instead of deleted** 
+
+- This approach maintains data transparency and avoids incorrect data loss 
+
+ 
+
+---
+
+ 
+
+## 2. Missing Data Handling
+
+ 
+
+- Checked missing values in key fields:
+
+  - region 
+
+  - ship_mode 
+
+  - order_date 
+
+  - ship_date 
+
+ 
+
+- Handling approach:
+
+  - Missing `region` and `ship_mode` → replaced with **"Unknown"** 
+
+  - Missing `discount` → treated as 0 only when other values were valid 
+
+  - Missing or invalid dates → **flagged** for data quality issues 
+
+ 
+
+---
+
+ 
+
+## 3. Data Standardization
+
+ 
+
+- Removed extra spaces using **TRIM** 
+
+- Standardized text format using **PROPER** 
+
+- Ensured consistency across:
+
+  - customer_name 
+
+  - region 
+
+  - category 
+
+  - sub_category 
+
+  - ship_mode 
+
+  - order_status 
+
+ 
+
+This ensures uniform formatting across the dataset.
+
+ 
+
+---
+
+ 
+
+## 4. Date Cleaning
+
+ 
+
+- Converted `order_date` and `ship_date` into proper Excel date format 
+
+- Handled inconsistent formats using conversion methods 
+
+- Identified invalid date cases 
+
+ 
+
+- Special validation:
+
+  - Records where **ship_date < order_date** were flagged as invalid 
+
+ 
+
+---
+
+ 
+
+## 5. Discount and Value Validation
+
+ 
+
+- Missing discount values handled as defined in business rules 
+
+- Negative discount values were flagged as invalid 
+
+- Discount values outside acceptable range were flagged 
+
+ 
+
+---
+
+ 
+
+## 6. Sales and Profit Validation
+
+ 
+
+- Recalculated values:
+
+  - Sales = quantity × unit_price × (1 − discount) 
+
+  - Profit = sales − cost 
+
+ 
+
+- Compared calculated and original values 
+
+- Mismatches were flagged for validation 
+
+ 
+
+---
+
+ 
+
+## 7. Derived Fields Created
+
+ 
+
+Additional fields were created to support analysis:
+
+ 
+
+- cleaned_discount 
+
+- calculated_sales 
+
+- calculated_profit 
+
+- profit_margin 
+
+- shipping_delay_days 
+
+- order_month 
+
+- order_year 
+
+ 
+
+These fields help in reporting and detecting inconsistencies.
+
+ 
+
+---
+
+ 
+
+## 8. Data Quality Flags
+
+ 
+
+Multiple validation flags were created:
+
+ 
+
+- duplicate_order_id_flag 
+
+- date_issue_flag 
+
+- discount_issue_flag 
+
+- calculation_mismatch_flag 
+
+- status_summary_flag 
+
+ 
+
+A final consolidated field:
+
+ 
+
+**data_quality_flag**
+
+- Clean 
+
+- Warning 
+
+- Invalid 
+
+ 
+
+---
+
+ 
+
+## 9. Business Rules Applied
+
+ 
+
+- Missing region → replaced with "Unknown" 
+
+- Missing ship mode → replaced with "Unknown" 
+
+- Negative or invalid discounts → flagged 
+
+- Cancelled and failed orders → excluded from completed sales 
+
+- Refunded orders → analyzed separately 
+
+- Ship date before order date → flagged as invalid 
+
+ 
+
+---
+
+ 
+
+## 10. Summary
+
+ 
+
+The data cleaning process was designed to be:
+
+ 
+
+- Transparent (using flags instead of deleting important records) 
+
+- Reproducible (formula-based approach) 
+
+- Reliable for analysis 
+
+ 
+
+The cleaned dataset (`cleaned_orders.xlsx`) is now ready for further reporting and dashboard creation.
+
+---
+
+
+
+## 11. Limitations
 
 The cleaning process is based only on the given dataset. 
 Some assumptions were made while handling missing values, which may slightly affect the final analysis.
+
+
+---
+
+
+## 12. Reflection 
+This cleaning approach allowed me to maintain transparency by not deleting all problematic records and instead flagging them for review. It ensures that business decisions are based on reliable and validated data.
