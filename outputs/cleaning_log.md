@@ -283,3 +283,11 @@ Some assumptions were made while handling missing values, which may slightly aff
 
 ## 12. Reflection 
 This cleaning approach allowed me to maintain transparency by not deleting all problematic records and instead flagging them for review. It ensures that business decisions are based on reliable and validated data.
+
+While working on this dataset, I observed that even small data quality issues such as missing values, inconsistent formats, or duplicate entries can significantly impact analysis results.
+
+
+Instead of simply deleting problematic data, I used a combination of cleaning and flagging approaches to maintain transparency and ensure that important business information was not lost.
+
+
+This process helped me understand the importance of careful data preparation before performing analysis and how proper validation improves the reliability of business insight
